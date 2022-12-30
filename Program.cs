@@ -21,6 +21,13 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
+List<MyProduct> products = Enumerable.Range(0, 5).Select(i => new MyProduct
+{
+    Id = i,
+    Name = $"CoolProduct No: {i}",
+    Description = "This is the coolest product ever",
+}).ToList();
+
 app.MapGet("/weatherforecast", () =>
 {
     var forecast = Enumerable.Range(1, 5).Select(index =>
@@ -34,6 +41,10 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+
+app.MapGet("/mytext", () => { return "Hi, How are you?"; });
+app.MapGet("/products", () => products);
+app.MapGet("/products/{id}", (int id) => products.SingleOrDefault(p => p.Id == id));
 
 app.Run();
 
